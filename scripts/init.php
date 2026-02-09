@@ -1,9 +1,7 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
+include './conf.php';
 
-$conn = mysqli_connect($servername, $username, $password);
+$conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
 if (!$conn) {
     die("connection failed: " . mysqli_connect_error());
@@ -14,7 +12,7 @@ $quiz_list = json_decode($json_ql, true);
 
 foreach ($quiz_list["quizzes"] as $quiz_name) {
 #   echo $quiz_name . "<br>";
-    $check_sql = "SELECT * FROM quizzer.quizzes WHERE NAME=\"" . $quiz_name . "\";";
+    $check_sql = "SELECT * FROM quizzes WHERE NAME=\"" . $quiz_name . "\";";
 #   echo $check . "<br>";
     
     $ch_res = $conn->query($check_sql);
@@ -36,7 +34,7 @@ foreach ($quiz_list["quizzes"] as $quiz_name) {
         }
         $as .= "}";
         
-        $ins_sql = "INSERT INTO quizzer.quizzes (NAME, QUESTIONS, ANSWERS, MAX_SCORE) VALUES ('" . $quiz_name . "', '" . $qs . "', '" . $as . "', '" . $ms . "');";
+        $ins_sql = "INSERT INTO quizzes (NAME, QUESTIONS, ANSWERS, MAX_SCORE) VALUES ('" . $quiz_name . "', '" . $qs . "', '" . $as . "', '" . $ms . "');";
 #       echo $ins . "<br>";
 
         $conn->query($ins_sql);
@@ -52,7 +50,7 @@ foreach ($quiz_list["quizzes"] as $quiz_name) {
     }
 }
 
-$sql = "SELECT * FROM quizzer.quizzes;";
+$sql = "SELECT * FROM quizzes;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
