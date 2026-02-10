@@ -11,7 +11,7 @@ function renderResults(data) {
     const container = document.getElementById('results-container');
 
     const summary = document.createElement('p');
-    summary.textContent = `Score: ${data.score} / ${data.total}`;
+    summary.textContent = `Score: ${data.score} / ${data.max}`;
     container.appendChild(summary);
 
     // TODO: backend

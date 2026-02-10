@@ -1,6 +1,6 @@
  <?php
 $servername = "localhost";
-$port = 3307;
+$port = 80;
 $username = "root";
 $password = "";
 $dbname = "quizzer";
