@@ -9,9 +9,16 @@ if (!uid) {
 
 function renderResults(data) {
     const container = document.getElementById('results-container');
-
+    var pcnt = 0;
+    if (data.gt == data.tot || data.lt == 0){
+        pcnt = 99.99;
+    } else if (data.gt == 0){
+        pcnt = 0.01;
+    } else {
+        pcnt = (data.gt / data.tot) * 100;
+    }
     const summary = document.createElement('p');
-    summary.textContent = `Score: ${data.score} / ${data.total}`;
+    summary.textContent = `Score: ${data.score} / ${data.max}. You did better than ${data.lt} people and worse than ${data.gt}, out of ${data.tot} test-takers. You are in the top ${pcnt.toFixed(2)}% of participants.`;
     container.appendChild(summary);
 
     // TODO: backend

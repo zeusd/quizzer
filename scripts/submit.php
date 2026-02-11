@@ -1,5 +1,7 @@
 <?php
 
+include './conf.php';
+
 $uid_len = 12;
 
 function rand_uid($len) {
@@ -20,11 +22,8 @@ $req = json_decode($json_req, true);
 $quiz = $req['quiz'];
 $ans = $req['answers'];
 
-$servername = "localhost";
-$username = "root";
-$password = "";
 
-$conn = mysqli_connect($servername, $username, $password);
+$conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
 if (!$conn) {
     die("connection failed: " . mysqli_connect_error());
@@ -33,7 +32,7 @@ if (!$conn) {
 #   echo $req['quiz'] . "<br>";
 
 $score = 0;
-$ans_sql = "SELECT * FROM quizzer.quizzes WHERE NAME=\"" . $quiz . "\";";
+$ans_sql = "SELECT * FROM quizzes WHERE NAME=\"" . $quiz . "\";";
 $res_ans = $conn->query($ans_sql);
 
 if ($res_ans->num_rows > 0) {
@@ -50,18 +49,18 @@ if ($res_ans->num_rows > 0) {
 }
 
 $uid = rand_uid($uid_len);
-$ch_sql = "SELECT * FROM quizzer.results WHERE UID=\"" . $uid . "\";";
+$ch_sql = "SELECT * FROM results WHERE UID=\"" . $uid . "\";";
 $ch_res = $conn->query($ch_sql);
 
 while (mysqli_num_rows($ch_res) != 0) {
     $uid = rand_uid($uid_len);
-    $ch_sql = "SELECT * FROM quizzer.results WHERE UID=\"" . $uid . "\";";
+    $ch_sql = "SELECT * FROM results WHERE UID=\"" . $uid . "\";";
     $ch_res = $conn->query($ch_sql);
 }
 
 #   echo $ch_sql . "<br>";
 
-$ins_sql = "INSERT INTO quizzer.results (UID, QUIZ, ANSWERS, SCORE) VALUES ('" . $uid . "', '" . $quiz . "', '" . json_encode($ans) . "', '" . $score . "');";
+$ins_sql = "INSERT INTO results (UID, QUIZ, ANSWERS, SCORE) VALUES ('" . $uid . "', '" . $quiz . "', '" . json_encode($ans) . "', '" . $score . "');";
 $conn->query($ins_sql);
 
 #   echo $ins_sql . "<br>";
