@@ -10,7 +10,7 @@ if (!uid) {
 function renderResults(data) {
     const container = document.getElementById('results-container');
     var pcnt = 0;
-    if (data.gt == data.tot){
+    if (data.gt == data.tot || data.lt == 0){
         pcnt = 99.99;
     } else if (data.gt == 0){
         pcnt = 0.01;
